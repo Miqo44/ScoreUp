@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "defaultTitle": "Վարկային կազմակերպություն՝",
+      "defaultType": "Տեսակ՝",
+      "defaultReport": "ՖԱՅԿՈ Սքոր զեկույց'",
+      "defaultPurpose": "Նպատակ՝",
+      "defaultLoanApplication": "Նոր վարկի դիմում",
+      "defaultDate": "Ամսաթիվ՝",
+      "defaultAffect": "Ազդեցություն՝",
+      "defaultIsImportant": true,
+      "important": "Ազդում է",
+      "notImportant": "Չի ազդում",
+      "search": "Որոնել",
+      "queries": "Հարցումներ"
+    }
+  ]
+}

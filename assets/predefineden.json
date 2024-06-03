@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "title": "Evoca bank",
+      "report": "FAICO Score report",
+      "loanApplication": "New loan application",
+      "isImportant": true
+    },
+    {
+      "title": "ID bank",
+      "report": "FAICO Score report",
+      "loanApplication": "New loan application",
+      "isImportant": false
+    },
+    {
+      "title": "Credit organization",
+      "report": "FAICO Score report",
+      "loanApplication": "New loan application",
+      "isImportant": false
+    }
+  ]
+}

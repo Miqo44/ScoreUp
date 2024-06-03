@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "title": "Էվոկա բանկ",
+      "report": "ՖԱՅԿՈ Սքոր զեկույց",
+      "loanApplication": "Նոր վարկի դիմում",
+      "isImportant": true
+    },
+    {
+      "title": "Այ Դի բանկ",
+      "report": "ՖԱՅԿՈ Սքոր զեկույց",
+      "loanApplication": "Նոր վարկի դիմում",
+      "isImportant": false
+    },
+    {
+      "title": "Վարկային կազմակերպություն",
+      "report": "ՖԱՅԿՈ Սքոր զեկույց",
+      "loanApplication": "Նոր վարկի դիմում",
+      "isImportant": false
+    }
+  ]
+}

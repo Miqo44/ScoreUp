@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "defaultTitle": "Credit organization",
+      "defaultType": "Species",
+      "defaultReport": "FAICO Score report",
+      "defaultPurpose": "Purpose",
+      "defaultLoanApplication": "New loan application",
+      "defaultDate": "Date",
+      "defaultAffect": "Affect",
+      "defaultIsImportant": true,
+      "important": "Is impacting",
+      "notImportant": "does not affect",
+      "search": "Search",
+      "queries": "Queries"
+    }
+  ]
+}

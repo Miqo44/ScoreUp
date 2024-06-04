@@ -52,7 +52,8 @@ class LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _loadCredentials() async {
-    String credentialsContent = await rootBundle.loadString('assets/credentials.json');
+    String credentialsContent =
+        await rootBundle.loadString('assets/credentials.json');
     Map<String, dynamic> credentials = json.decode(credentialsContent);
     setState(() {
       _registeredUsername = credentials['username'];
@@ -68,35 +69,43 @@ class LoginPageState extends State<LoginPage> {
 
   void _validateUsername() {
     setState(() {
-      _usernameError = _usernameController.text.length < 8 ? 'Նվազագույնը 8 թիվ' : null;
-      _usernameFieldColor = _usernameError != null ? const Color.fromARGB(255, 255, 243, 243) : const Color.fromRGBO(240, 244, 255, 1);
+      _usernameError =
+          _usernameController.text.length < 8 ? 'Նվազագույնը 8 թիվ' : null;
+      _usernameFieldColor = _usernameError != null
+          ? const Color.fromARGB(255, 255, 243, 243)
+          : const Color.fromRGBO(240, 244, 255, 1);
     });
   }
 
   void _validatePassword() {
     setState(() {
-      _passwordError = _passwordController.text.length < 8 ? 'Նվազագույնը 8 նիշ' : null;
-      _passwordFieldColor = _passwordError != null ? const Color.fromARGB(255, 255, 243, 243) : const Color.fromRGBO(240, 244, 255, 1);
+      _passwordError =
+          _passwordController.text.length < 8 ? 'Նվազագույնը 8 նիշ' : null;
+      _passwordFieldColor = _passwordError != null
+          ? const Color.fromARGB(255, 255, 243, 243)
+          : const Color.fromRGBO(240, 244, 255, 1);
     });
   }
 
   void _validateUsernameLength() {
     setState(() {
-      _usernameFieldColor = _usernameController.text.isNotEmpty && _usernameError == null
-          ? const Color.fromRGBO(240, 244, 255, 1)
-          : (_usernameController.text.length >= 8
-          ? const Color.fromRGBO(240, 244, 255, 1)
-          : const Color.fromARGB(255, 255, 243, 243));
+      _usernameFieldColor =
+          _usernameController.text.isNotEmpty && _usernameError == null
+              ? const Color.fromRGBO(240, 244, 255, 1)
+              : (_usernameController.text.length >= 8
+                  ? const Color.fromRGBO(240, 244, 255, 1)
+                  : const Color.fromARGB(255, 255, 243, 243));
     });
   }
 
   void _validatePasswordLength() {
     setState(() {
-      _passwordFieldColor = _passwordController.text.isNotEmpty && _passwordError == null
-          ? const Color.fromRGBO(240, 244, 255, 1)
-          : (_passwordController.text.length >= 8
-          ? const Color.fromRGBO(240, 244, 255, 1)
-          : const Color.fromARGB(255, 255, 243, 243));
+      _passwordFieldColor =
+          _passwordController.text.isNotEmpty && _passwordError == null
+              ? const Color.fromRGBO(240, 244, 255, 1)
+              : (_passwordController.text.length >= 8
+                  ? const Color.fromRGBO(240, 244, 255, 1)
+                  : const Color.fromARGB(255, 255, 243, 243));
     });
   }
 
@@ -105,7 +114,9 @@ class LoginPageState extends State<LoginPage> {
       _validateUsername();
       _validateUsernameLength();
     } else {
-      _usernameFieldColor = _usernameError != null ? const Color.fromARGB(255, 255, 243, 243) : const Color.fromRGBO(240, 244, 255, 1);
+      _usernameFieldColor = _usernameError != null
+          ? const Color.fromARGB(255, 255, 243, 243)
+          : const Color.fromRGBO(240, 244, 255, 1);
     }
   }
 
@@ -114,10 +125,14 @@ class LoginPageState extends State<LoginPage> {
       _validatePassword();
       _validatePasswordLength();
     } else {
-      _passwordFieldColor = _passwordError != null ? const Color.fromARGB(255, 255, 243, 243) : const Color.fromRGBO(240, 244, 255, 1);
+      _passwordFieldColor = _passwordError != null
+          ? const Color.fromARGB(255, 255, 243, 243)
+          : const Color.fromRGBO(240, 244, 255, 1);
     }
   }
 
+  int _incorrectAttempts = 0;
+  bool _loginButtonEnabled = true;
 
   void _login() {
     _validateUsername();
@@ -129,12 +144,66 @@ class LoginPageState extends State<LoginPage> {
             _passwordController.text == _registeredPassword) {
           widget.onLoginSuccess();
         } else {
-          _showErrorDialog('Մուտքային տվյալները սխալ են լրացված։');
+          _incorrectAttempts++;
+          if (_incorrectAttempts >= 3) {
+            _showIncorrectAttemptsDialog();
+            _disableLoginButton();
+          } else {
+            _showErrorDialog('Մուտքային տվյալները սխալ են լրացված։');
+          }
         }
       } else {
-        _showErrorDialog('Մուտքային տվյալները սխալ են\nլրացված։');
+        _showErrorDialog('');
       }
     }
+  }
+
+  void _showIncorrectAttemptsDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+        ),
+        actionsPadding:
+            const EdgeInsets.symmetric(vertical: 11, horizontal: 0.5),
+        icon: SvgPicture.asset('assets/48 Warning.svg'),
+        title: const Text('Ուշադրություն',style: TextStyle(fontWeight: FontWeight.bold),),
+        content: const Text(
+          'Ձեր տվյալները մուտք են արվել \nթույլատրելի քանակից շատ։',
+          textAlign: TextAlign.center,style: TextStyle(fontSize: 14),
+        ),
+        actions: [
+          const Divider(
+            height: 0.5,
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Center(
+              child: Text(
+                'Վերականգնել գաղտնաբառը',
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14,
+                  color: Color.fromRGBO(31, 121, 255, 1),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _disableLoginButton() {
+    setState(() {
+      _loginButtonEnabled = false;
+    });
+    Future.delayed(const Duration(seconds: 30), () {
+      setState(() {
+        _loginButtonEnabled = true;
+      });
+    });
   }
 
   void _showErrorDialog(String message) {
@@ -142,21 +211,24 @@ class LoginPageState extends State<LoginPage> {
       context: context,
       builder: (context) => AlertDialog(
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(12)
-          ),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
-        actionsPadding: const EdgeInsets.symmetric(vertical: 11,horizontal: 0.5),
-        title: const Text(
-          'Սխալ մուտքային տվյալներ',
-          style: TextStyle(fontSize: 19),
+        actionsPadding:
+            const EdgeInsets.symmetric(vertical: 11, horizontal: 0.5),
+        title: const Center(
+          child: Text(
+            'Սխալ մուտքային տվյալներ',
+            style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+          ),
         ),
         content: Text(
           message,
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.center,style: const TextStyle(fontSize: 14),
         ),
         actions: [
-          const Divider(),
+          const Divider(
+            height: 0.5,
+          ),
           Center(
             child: TextButton(
               onPressed: () {
@@ -164,7 +236,7 @@ class LoginPageState extends State<LoginPage> {
               },
               child: const Text(
                 'Փորձել կրկին',
-                style: TextStyle(
+                style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,
                   color: Color.fromRGBO(31, 121, 255, 1),
                 ),
               ),
@@ -205,7 +277,8 @@ class LoginPageState extends State<LoginPage> {
               ),
               const Row(
                 children: [
-                  Text('Հեռախոսահամար', style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text('Հեռախոսահամար',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
               const SizedBox(
@@ -243,12 +316,14 @@ class LoginPageState extends State<LoginPage> {
               ),
               Row(
                 children: [
-                  const Text('Գաղտնաբառ', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Գաղտնաբառ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                   const Spacer(),
                   RichText(
                     text: TextSpan(
                       text: 'Մոռացե՞լ եք գաղտնաբառը',
-                      style: const TextStyle(color: Color(0xFF70A9FF), fontSize: 12),
+                      style: const TextStyle(
+                          color: Color(0xFF70A9FF), fontSize: 12),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.push(
@@ -301,7 +376,7 @@ class LoginPageState extends State<LoginPage> {
                     child: SizedBox(
                       height: 58,
                       child: TextButton(
-                        onPressed: _login,
+                        onPressed: _loginButtonEnabled ? _login : null,
                         style: ButtonStyle(
                           shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
@@ -330,7 +405,8 @@ class LoginPageState extends State<LoginPage> {
                   children: <TextSpan>[
                     TextSpan(
                       text: ' Գրանցվել',
-                      style: const TextStyle(color: Color(0xFF70A9FF), fontSize: 14),
+                      style: const TextStyle(
+                          color: Color(0xFF70A9FF), fontSize: 14),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.push(

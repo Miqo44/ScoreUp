@@ -61,7 +61,6 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
     final cardItem = dataProvider.items.isNotEmpty ? dataProvider.items.first : null;
-
     return Scaffold(
       appBar: AppBar(
         shape: const RoundedRectangleBorder(

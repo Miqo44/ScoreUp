@@ -53,7 +53,7 @@ class LoginPageState extends State<LoginPage> {
 
   Future<void> _loadCredentials() async {
     String credentialsContent =
-        await rootBundle.loadString('assets/credentials.json');
+    await rootBundle.loadString('assets/mock/credentials.json');
     Map<String, dynamic> credentials = json.decode(credentialsContent);
     setState(() {
       _registeredUsername = credentials['username'];
@@ -70,7 +70,7 @@ class LoginPageState extends State<LoginPage> {
   void _validateUsername() {
     setState(() {
       _usernameError =
-          _usernameController.text.length < 8 ? 'Նվազագույնը 8 թիվ' : null;
+      _usernameController.text.length < 8 ? 'Նվազագույնը 8 թիվ' : null;
       _usernameFieldColor = _usernameError != null
           ? const Color.fromARGB(255, 255, 243, 243)
           : const Color.fromRGBO(240, 244, 255, 1);
@@ -80,7 +80,7 @@ class LoginPageState extends State<LoginPage> {
   void _validatePassword() {
     setState(() {
       _passwordError =
-          _passwordController.text.length < 8 ? 'Նվազագույնը 8 նիշ' : null;
+      _passwordController.text.length < 8 ? 'Նվազագույնը 8 նիշ' : null;
       _passwordFieldColor = _passwordError != null
           ? const Color.fromARGB(255, 255, 243, 243)
           : const Color.fromRGBO(240, 244, 255, 1);
@@ -90,22 +90,22 @@ class LoginPageState extends State<LoginPage> {
   void _validateUsernameLength() {
     setState(() {
       _usernameFieldColor =
-          _usernameController.text.isNotEmpty && _usernameError == null
-              ? const Color.fromRGBO(240, 244, 255, 1)
-              : (_usernameController.text.length >= 8
-                  ? const Color.fromRGBO(240, 244, 255, 1)
-                  : const Color.fromARGB(255, 255, 243, 243));
+      _usernameController.text.isNotEmpty && _usernameError == null
+          ? const Color.fromRGBO(240, 244, 255, 1)
+          : (_usernameController.text.length >= 8
+          ? const Color.fromRGBO(240, 244, 255, 1)
+          : const Color.fromARGB(255, 255, 243, 243));
     });
   }
 
   void _validatePasswordLength() {
     setState(() {
       _passwordFieldColor =
-          _passwordController.text.isNotEmpty && _passwordError == null
-              ? const Color.fromRGBO(240, 244, 255, 1)
-              : (_passwordController.text.length >= 8
-                  ? const Color.fromRGBO(240, 244, 255, 1)
-                  : const Color.fromARGB(255, 255, 243, 243));
+      _passwordController.text.isNotEmpty && _passwordError == null
+          ? const Color.fromRGBO(240, 244, 255, 1)
+          : (_passwordController.text.length >= 8
+          ? const Color.fromRGBO(240, 244, 255, 1)
+          : const Color.fromARGB(255, 255, 243, 243));
     });
   }
 
@@ -166,7 +166,7 @@ class LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
         actionsPadding:
-            const EdgeInsets.symmetric(vertical: 11, horizontal: 0.5),
+        const EdgeInsets.symmetric(vertical: 11, horizontal: 0.5),
         icon: SvgPicture.asset('assets/48 Warning.svg'),
         title: const Text('Ուշադրություն',style: TextStyle(fontWeight: FontWeight.bold),),
         content: const Text(
@@ -214,7 +214,7 @@ class LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
         actionsPadding:
-            const EdgeInsets.symmetric(vertical: 11, horizontal: 0.5),
+        const EdgeInsets.symmetric(vertical: 11, horizontal: 0.5),
         title: const Center(
           child: Text(
             'Սխալ մուտքային տվյալներ',
@@ -278,7 +278,7 @@ class LoginPageState extends State<LoginPage> {
               const Row(
                 children: [
                   Text('Հեռախոսահամար',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                    style: TextStyle(fontWeight: FontWeight.bold,height: 1.17),),
                 ],
               ),
               const SizedBox(
@@ -291,17 +291,31 @@ class LoginPageState extends State<LoginPage> {
                   filled: true,
                   fillColor: _usernameFieldColor,
                   hintText: '+374 1• ••• •••',
-                  border: InputBorder.none,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: _usernameError != null ? const Color.fromARGB(255, 255, 104, 109) : Colors.transparent,
+                      width: 1.0,
+                    ),
+                  ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(16, 112, 255, 1),
+                    borderSide: BorderSide(
+                      color: _usernameError != null ? const Color.fromARGB(255, 255, 104, 109) : const Color.fromRGBO(16, 112, 255, 1),
                       width: 1.0,
                     ),
                   ),
                   errorText: _usernameError,
                   errorStyle: const TextStyle(
+                    height: 1.3,
                     color: Color.fromARGB(255, 255, 104, 109),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: _usernameError != null ? const Color.fromARGB(255, 255, 104, 109) : const Color.fromRGBO(240, 244, 255, 1),
+                      width: 1.0,
+                    ),
                   ),
                 ),
                 keyboardType: TextInputType.number,
@@ -322,7 +336,7 @@ class LoginPageState extends State<LoginPage> {
                   RichText(
                     text: TextSpan(
                       text: 'Մոռացե՞լ եք գաղտնաբառը',
-                      style: const TextStyle(
+                      style: const TextStyle(height: 1.3,
                           color: Color(0xFF70A9FF), fontSize: 12),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -347,17 +361,32 @@ class LoginPageState extends State<LoginPage> {
                   filled: true,
                   fillColor: _passwordFieldColor,
                   hintText: 'Գաղտնաբառ',
-                  border: InputBorder.none,
+                  hintStyle: const TextStyle(height: 1.17),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: _passwordError != null ? const Color.fromARGB(255, 255, 104, 109) : Colors.transparent,
+                      width: 1.0,
+                    ),
+                  ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(16, 112, 255, 1),
+                    borderSide: BorderSide(
+                      color: _passwordError != null ? const Color.fromARGB(255, 255, 104, 109) : const Color.fromRGBO(16, 112, 255, 1),
                       width: 1.0,
                     ),
                   ),
                   errorText: _passwordError,
                   errorStyle: const TextStyle(
+                    height: 1.3,
                     color: Color.fromARGB(255, 255, 104, 109),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: _passwordError != null ? const Color.fromARGB(255, 255, 104, 109) : const Color.fromRGBO(240, 244, 255, 1),
+                      width: 1.0,
+                    ),
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(

@@ -66,11 +66,11 @@ class DataProvider with ChangeNotifier {
     String language = isArmenian ? 'arm' : 'en';
     String predefinedFileName = isArmenian ? 'predefinedarm.json' : 'predefineden.json';
 
-    String predefinedContent = await rootBundle.loadString('assets/$predefinedFileName');
+    String predefinedContent = await rootBundle.loadString('assets/mock/$predefinedFileName');
     List<dynamic> itemsJson = json.decode(predefinedContent)['items'];
 
     List<Future<String>> defaultFileContents = itemsJson.map((item) async {
-      String defaultContent = await rootBundle.loadString('assets/$language.json');
+      String defaultContent = await rootBundle.loadString('assets/mock/$language.json');
       return defaultContent;
     }).toList();
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:packages/colors.dart';
 
 class UserNameWidget extends StatelessWidget {
   const UserNameWidget({
@@ -27,26 +28,26 @@ class UserNameWidget extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-            color: _usernameError != null ? const Color.fromARGB(255, 255, 104, 109) : Colors.transparent,
+            color: _usernameError != null ? AppColors.errorBorderColor : Colors.transparent,
             width: 1.0,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-            color: _usernameError != null ? const Color.fromARGB(255, 255, 104, 109) : const Color.fromRGBO(16, 112, 255, 1),
+            color: _usernameError != null ? AppColors.errorBorderColor : AppColors.focusedBorderColor,
             width: 1.0,
           ),
         ),
         errorText: _usernameError,
         errorStyle: const TextStyle(
           height: 1.3,
-          color: Color.fromARGB(255, 255, 104, 109),
+          color: AppColors.errorBorderColor,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-            color: _usernameError != null ? const Color.fromARGB(255, 255, 104, 109) : const Color.fromRGBO(240, 244, 255, 1),
+            color: _usernameError != null ? AppColors.errorBorderColor : AppColors.usernameFieldColorError,
             width: 1.0,
           ),
         ),

@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:harcum1/screens/user_name_widget.dart';
-import 'dialogs.dart';
+import 'login_dialogs/dialogs.dart';
 import 'login.dart';
 import 'menu.dart';
+import 'package:packages/colors.dart';
 
 class LoginPageState extends State<LoginPage> {
 
@@ -19,7 +20,7 @@ class LoginPageState extends State<LoginPage> {
             bottom: Radius.circular(25),
           ),
         ),
-        backgroundColor: const Color(0xFF1070FF),
+        backgroundColor: AppColors.appBarBackground,
         title: const Text(
           'Մուտք',
           style: TextStyle(color: Colors.white),
@@ -66,7 +67,7 @@ class LoginPageState extends State<LoginPage> {
                     text: TextSpan(
                       text: 'Մոռացե՞լ եք գաղտնաբառը',
                       style: const TextStyle(
-                          height: 1.3, color: Color(0xFF70A9FF), fontSize: 12),
+                          height: 1.3, color: AppColors.linkText, fontSize: 12),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.push(
@@ -95,7 +96,7 @@ class LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(
                       color: _passwordError != null
-                          ? const Color.fromARGB(255, 255, 104, 109)
+                          ? AppColors.errorBorderColor
                           : Colors.transparent,
                       width: 1.0,
                     ),
@@ -104,29 +105,29 @@ class LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(
                       color: _passwordError != null
-                          ? const Color.fromARGB(255, 255, 104, 109)
-                          : const Color.fromRGBO(16, 112, 255, 1),
+                          ? AppColors.errorBorderColor
+                          : AppColors.focusedBorderColor,
                       width: 1.0,
                     ),
                   ),
                   errorText: _passwordError,
                   errorStyle: const TextStyle(
                     height: 1.3,
-                    color: Color.fromARGB(255, 255, 104, 109),
+                    color: AppColors.errorText,
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(
                       color: _passwordError != null
-                          ? const Color.fromARGB(255, 255, 104, 109)
-                          : const Color.fromRGBO(240, 244, 255, 1),
+                          ? AppColors.errorBorderColor
+                          : AppColors.passwordFieldColorDefault,
                       width: 1.0,
                     ),
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureText ? Icons.visibility : Icons.visibility_off,
-                      color: Colors.black,
+                      color: AppColors.passwordVisibilityIcon,
                     ),
                     onPressed: _togglePasswordVisibility,
                   ),
@@ -148,7 +149,7 @@ class LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           backgroundColor: WidgetStateProperty.all(
-                            const Color(0xFF70A9FF),
+                            AppColors.loginButtonBackground,
                           ),
                         ),
                         child: const Text(
@@ -200,8 +201,8 @@ class LoginPageState extends State<LoginPage> {
   String? _registeredPassword;
   String? _usernameError;
   String? _passwordError;
-  Color _usernameFieldColor = const Color.fromRGBO(240, 244, 255, 1);
-  Color _passwordFieldColor = const Color.fromRGBO(240, 244, 255, 1);
+  Color _usernameFieldColor = AppColors.usernameFieldColorDefault;
+  Color _passwordFieldColor = AppColors.passwordFieldColorDefault;
 
   @override
   void initState() {
@@ -242,13 +243,13 @@ class LoginPageState extends State<LoginPage> {
     });
   }
 
-  void _validateField() {
+  void _validateUserName() {
     setState(() {
       _usernameError =
       _usernameController.text.length < 8 ? 'Նվազագույնը 8 թիվ' : null;
       _usernameFieldColor = _usernameError != null
-          ? const Color.fromARGB(255, 255, 243, 243)
-          : const Color.fromRGBO(240, 244, 255, 1);
+          ? AppColors.usernameFieldColorError
+          : AppColors.usernameFieldColorDefault;
     });
   }
 
@@ -257,8 +258,8 @@ class LoginPageState extends State<LoginPage> {
       _passwordError =
       _passwordController.text.length < 8 ? 'Նվազագույնը 8 նիշ' : null;
       _passwordFieldColor = _passwordError != null
-          ? const Color.fromARGB(255, 255, 243, 243)
-          : const Color.fromRGBO(240, 244, 255, 1);
+          ? AppColors.passwordFieldColorError
+          : AppColors.passwordFieldColorDefault;
     });
   }
 
@@ -266,10 +267,10 @@ class LoginPageState extends State<LoginPage> {
     setState(() {
       _usernameFieldColor =
       _usernameController.text.isNotEmpty && _usernameError == null
-          ? const Color.fromRGBO(240, 244, 255, 1)
+          ? AppColors.usernameFieldColorDefault
           : (_usernameController.text.length >= 8
-          ? const Color.fromRGBO(240, 244, 255, 1)
-          : const Color.fromARGB(255, 255, 243, 243));
+          ? AppColors.usernameFieldColorDefault
+          : AppColors.usernameFieldColorError);
     });
   }
 
@@ -277,21 +278,21 @@ class LoginPageState extends State<LoginPage> {
     setState(() {
       _passwordFieldColor =
       _passwordController.text.isNotEmpty && _passwordError == null
-          ? const Color.fromRGBO(240, 244, 255, 1)
+          ? AppColors.passwordFieldColorDefault
           : (_passwordController.text.length >= 8
-          ? const Color.fromRGBO(240, 244, 255, 1)
-          : const Color.fromARGB(255, 255, 243, 243));
+          ? AppColors.passwordFieldColorDefault
+          : AppColors.passwordFieldColorError);
     });
   }
 
   void _onUsernameFocusChange() {
     if (!_usernameFocusNode.hasFocus) {
-      _validateField();
+      _validateUserName();
       _validateUsernameLength();
     } else {
       _usernameFieldColor = _usernameError != null
-          ? const Color.fromARGB(255, 255, 243, 243)
-          : const Color.fromRGBO(240, 244, 255, 1);
+          ? AppColors.usernameFieldColorError
+          : AppColors.usernameFieldColorDefault;
     }
   }
 
@@ -301,8 +302,8 @@ class LoginPageState extends State<LoginPage> {
       _validatePasswordLength();
     } else {
       _passwordFieldColor = _passwordError != null
-          ? const Color.fromARGB(255, 255, 243, 243)
-          : const Color.fromRGBO(240, 244, 255, 1);
+          ? AppColors.passwordFieldColorError
+          : AppColors.passwordFieldColorDefault;
     }
   }
 
@@ -310,7 +311,7 @@ class LoginPageState extends State<LoginPage> {
   bool _loginButtonEnabled = true;
 
   void _login() {
-    _validateField();
+    _validateUserName();
     _validatePassword();
 
     if (_usernameError == null && _passwordError == null) {

@@ -93,7 +93,6 @@ class UserNameWidgetState extends State<UserNameWidget> {
                   '+374',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 16,
                     height: 1.5,
                   ),
                 ),
@@ -110,7 +109,6 @@ class UserNameWidgetState extends State<UserNameWidget> {
                     widget.usernameController.text.padRight(8, '•'),
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 16,
                       height: 1.5,
                     ),
                   ),

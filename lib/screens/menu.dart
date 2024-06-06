@@ -86,7 +86,7 @@ class MyHomePage extends StatelessWidget {
           ],
         ),
         flexibleSpace: Padding(
-          padding: const EdgeInsets.only(top: 54, right: 12),
+          padding: const EdgeInsets.only(top: 30, right: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

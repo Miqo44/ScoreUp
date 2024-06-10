@@ -36,7 +36,6 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'Mardoto',
         textTheme: const TextTheme(
           bodyMedium: TextStyle(fontSize: 16),
         ),

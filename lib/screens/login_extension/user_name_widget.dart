@@ -74,7 +74,7 @@ class UserNameWidgetState extends State<UserNameWidget> {
               ),
               keyboardType: TextInputType.phone,
               inputFormatters: [
-                LengthLimitingTextInputFormatter(8),
+                LengthLimitingTextInputFormatter(11),
                 FilteringTextInputFormatter.allow(
                   RegExp(r'^[0-9]*$'),
                 ),
@@ -106,7 +106,7 @@ class UserNameWidgetState extends State<UserNameWidget> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    widget.usernameController.text.padRight(8, '•'),
+                    widget.usernameController.text.padRight(11, '•'),
                     style: const TextStyle(
                       color: Colors.black,
                       height: 1.5,

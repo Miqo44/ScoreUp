@@ -1,15 +1,16 @@
-import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:harcum1/screens/login_extension/user_name_widget.dart';
-import 'login_extension/login_dialogs.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'login.dart';
+import 'login_extension/login_request.dart';
+import 'login_extension/user_name_widget.dart';
+import 'login_extension/login_dialogs.dart';
 import 'menu.dart';
 import 'package:packages/colors.dart';
 
 class LoginPageState extends State<LoginPage> {
+  final DioService dioService = DioService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -197,8 +198,6 @@ class LoginPageState extends State<LoginPage> {
   final _usernameFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
   bool _obscureText = true;
-  String? _registeredUsername;
-  String? _registeredPassword;
   String? _usernameError;
   String? _passwordError;
   Color _usernameFieldColor = AppColors.usernameFieldColorDefault;
@@ -207,7 +206,6 @@ class LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _loadCredentials();
     _usernameController.addListener(_validateUsernameLength);
     _passwordController.addListener(_validatePasswordLength);
     _usernameFocusNode.addListener(_onUsernameFocusChange);
@@ -227,16 +225,6 @@ class LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  Future<void> _loadCredentials() async {
-    String credentialsContent =
-        await rootBundle.loadString('assets/mock/credentials.json');
-    Map<String, dynamic> credentials = json.decode(credentialsContent);
-    setState(() {
-      _registeredUsername = credentials['username'];
-      _registeredPassword = credentials['password'];
-    });
-  }
-
   void _togglePasswordVisibility() {
     setState(() {
       _obscureText = !_obscureText;
@@ -246,7 +234,7 @@ class LoginPageState extends State<LoginPage> {
   void _validateUserName() {
     setState(() {
       _usernameError =
-          _usernameController.text.length < 8 ? 'Նվազագույնը 8 թիվ' : null;
+      _usernameController.text.length < 8 ? 'Նվազագույնը 8 թիվ' : null;
       _usernameFieldColor = _usernameError != null
           ? AppColors.usernameFieldColorError
           : AppColors.usernameFieldColorDefault;
@@ -256,7 +244,7 @@ class LoginPageState extends State<LoginPage> {
   void _validatePassword() {
     setState(() {
       _passwordError =
-          _passwordController.text.length < 8 ? 'Նվազագույնը 8 նիշ' : null;
+      _passwordController.text.length < 8 ? 'Նվազագույնը 8 նիշ' : null;
       _passwordFieldColor = _passwordError != null
           ? AppColors.passwordFieldColorError
           : AppColors.passwordFieldColorDefault;
@@ -266,22 +254,22 @@ class LoginPageState extends State<LoginPage> {
   void _validateUsernameLength() {
     setState(() {
       _usernameFieldColor =
-          _usernameController.text.isNotEmpty && _usernameError == null
-              ? AppColors.usernameFieldColorDefault
-              : (_usernameController.text.length >= 8
-                  ? AppColors.usernameFieldColorDefault
-                  : AppColors.usernameFieldColorError);
+      _usernameController.text.isNotEmpty && _usernameError == null
+          ? AppColors.usernameFieldColorDefault
+          : (_usernameController.text.length >= 8
+          ? AppColors.usernameFieldColorDefault
+          : AppColors.usernameFieldColorError);
     });
   }
 
   void _validatePasswordLength() {
     setState(() {
       _passwordFieldColor =
-          _passwordController.text.isNotEmpty && _passwordError == null
-              ? AppColors.passwordFieldColorDefault
-              : (_passwordController.text.length >= 8
-                  ? AppColors.passwordFieldColorDefault
-                  : AppColors.passwordFieldColorError);
+      _passwordController.text.isNotEmpty && _passwordError == null
+          ? AppColors.passwordFieldColorDefault
+          : (_passwordController.text.length >= 8
+          ? AppColors.passwordFieldColorDefault
+          : AppColors.passwordFieldColorError);
     });
   }
 
@@ -310,26 +298,22 @@ class LoginPageState extends State<LoginPage> {
   int _incorrectAttempts = 0;
   bool _loginButtonEnabled = true;
 
-  void _login() {
+  Future<void> _login() async {
     _validateUserName();
     _validatePassword();
 
     if (_usernameError == null && _passwordError == null) {
-      if (_registeredUsername != null && _registeredPassword != null) {
-        if (_usernameController.text == _registeredUsername &&
-            _passwordController.text == _registeredPassword) {
-          widget.onLoginSuccess();
+      try {
+        await dioService.login(_usernameController.text, _passwordController.text);
+        widget.onLoginSuccess();
+      } catch (e) {
+        _incorrectAttempts++;
+        if (_incorrectAttempts >= 3) {
+          _showIncorrectAttemptsDialog();
+          _disableLoginButton();
         } else {
-          _incorrectAttempts++;
-          if (_incorrectAttempts >= 3) {
-            _showIncorrectAttemptsDialog();
-            _disableLoginButton();
-          } else {
-            _showErrorDialog('Մուտքային տվյալները սխալ են լրացված։');
-          }
+          _showErrorDialog('Մուտքային տվյալները սխալ են լրացված։');
         }
-      } else {
-        _showErrorDialog('');
       }
     }
   }

@@ -235,7 +235,7 @@ packages:
   packages:
     dependency: "direct main"
     description:
-      path: packages
+      path: "packages/colors"
       relative: true
     source: path
     version: "0.0.1"

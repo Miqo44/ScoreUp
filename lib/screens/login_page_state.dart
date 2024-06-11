@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:harcum1/screens/registration/registration.dart';
 import 'login.dart';
 import 'login_extension/login_request.dart';
 import 'login_extension/user_name_widget.dart';
@@ -150,7 +151,7 @@ class LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           backgroundColor: WidgetStateProperty.all(
-                            AppColors.loginButtonBackground,
+                            AppColors.buttonBackground,
                           ),
                         ),
                         child: const Text(
@@ -178,7 +179,7 @@ class LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const MyApp(),
+                              builder: (context) => const Registration(),
                             ),
                           );
                         },

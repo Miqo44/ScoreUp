@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:customappbar/customappbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:packages/colors.dart';
@@ -16,6 +16,7 @@ class PhoneNumberConfirmation extends StatefulWidget {
 class _PhoneNumberConfirmationState extends State<PhoneNumberConfirmation> {
   Timer? _timer;
   int _start = 60;
+  bool _hasStartedFilling = false;
 
   void startTimer() {
     _start = 60;
@@ -60,20 +61,7 @@ class _PhoneNumberConfirmationState extends State<PhoneNumberConfirmation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 96,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(25),
-          ),
-        ),
-        backgroundColor: AppColors.appBarBackground,
-        title: const Text(
-          'Հաստատում',
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const CustomAppBar(title: 'Հաստատում', toolBarHeight: 96,),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -126,7 +114,9 @@ class _PhoneNumberConfirmationState extends State<PhoneNumberConfirmation> {
                 child: PinCodeTextField(
                   appContext: context,
                   length: 6,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+
+                  },
                   onCompleted: (value) {},
                   keyboardType: TextInputType.number,
                   enableActiveFill: true,
@@ -137,10 +127,15 @@ class _PhoneNumberConfirmationState extends State<PhoneNumberConfirmation> {
                     borderRadius: BorderRadius.circular(8),
                     fieldHeight: 52,
                     fieldWidth: 52,
+                    inactiveColor: _hasStartedFilling
+                        ? AppColors.usernameFieldColorError
+                        : AppColors.usernameFieldColorDefault,
                     activeColor: AppColors.usernameFieldColorDefault,
                     activeFillColor: AppColors.usernameFieldColorDefault,
-                    selectedFillColor: Colors.transparent,
-                    inactiveFillColor: AppColors.usernameFieldColorError,
+                    selectedFillColor: AppColors.usernameFieldColorDefault,
+                    inactiveFillColor: _hasStartedFilling
+                        ? AppColors.usernameFieldColorError
+                        : AppColors.usernameFieldColorDefault,
                   ),
                 ),
               ),
@@ -169,6 +164,9 @@ class _PhoneNumberConfirmationState extends State<PhoneNumberConfirmation> {
               TextButton(
                 onPressed: () {
                   startTimer();
+                  setState(() {
+                    _hasStartedFilling = false;
+                  });
                 },
                 child: const Text(
                   "Ուղարկել նորից",
@@ -202,7 +200,7 @@ class _PhoneNumberConfirmationState extends State<PhoneNumberConfirmation> {
                         },
                         // onPressed: _onSubmit,
                         child: const Text(
-                          'Ստանալ հաստատման կոդը',
+                          'Շարունակել',
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                       ),

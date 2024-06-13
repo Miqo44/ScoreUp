@@ -1,3 +1,4 @@
+import 'package:customappbarwithoutarrow/customappbarwithoutarrow.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -78,21 +79,7 @@ class RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        toolbarHeight: 96,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(25),
-          ),
-        ),
-        backgroundColor: AppColors.appBarBackground,
-        title: const Text(
-          'Գրանցում',
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const CustomAppBarWithoutArrow(title: 'Գրանցում', toolBarHeight: 96,),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),

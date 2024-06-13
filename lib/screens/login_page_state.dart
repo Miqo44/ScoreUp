@@ -181,7 +181,7 @@ class LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Registration(),
+                              builder: (context) => const Registration(),
                             ),
                           );
                         },

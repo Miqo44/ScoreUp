@@ -128,7 +128,9 @@ class LoginPageState extends State<LoginPage> {
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                      _obscureText
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
                       color: AppColors.passwordVisibilityIcon,
                     ),
                     onPressed: _togglePasswordVisibility,
@@ -179,7 +181,7 @@ class LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Registration(),
+                              builder: (context) => Registration(),
                             ),
                           );
                         },
@@ -235,7 +237,7 @@ class LoginPageState extends State<LoginPage> {
   void _validateUserName() {
     setState(() {
       _usernameError =
-      _usernameController.text.length < 8 ? 'Նվազագույնը 8 թիվ' : null;
+          _usernameController.text.length < 8 ? 'Նվազագույնը 8 թիվ' : null;
       _usernameFieldColor = _usernameError != null
           ? AppColors.usernameFieldColorError
           : AppColors.usernameFieldColorDefault;
@@ -245,7 +247,7 @@ class LoginPageState extends State<LoginPage> {
   void _validatePassword() {
     setState(() {
       _passwordError =
-      _passwordController.text.length < 8 ? 'Նվազագույնը 8 նիշ' : null;
+          _passwordController.text.length < 8 ? 'Նվազագույնը 8 նիշ' : null;
       _passwordFieldColor = _passwordError != null
           ? AppColors.passwordFieldColorError
           : AppColors.passwordFieldColorDefault;
@@ -255,22 +257,22 @@ class LoginPageState extends State<LoginPage> {
   void _validateUsernameLength() {
     setState(() {
       _usernameFieldColor =
-      _usernameController.text.isNotEmpty && _usernameError == null
-          ? AppColors.usernameFieldColorDefault
-          : (_usernameController.text.length >= 8
-          ? AppColors.usernameFieldColorDefault
-          : AppColors.usernameFieldColorError);
+          _usernameController.text.isNotEmpty && _usernameError == null
+              ? AppColors.usernameFieldColorDefault
+              : (_usernameController.text.length >= 8
+                  ? AppColors.usernameFieldColorDefault
+                  : AppColors.usernameFieldColorError);
     });
   }
 
   void _validatePasswordLength() {
     setState(() {
       _passwordFieldColor =
-      _passwordController.text.isNotEmpty && _passwordError == null
-          ? AppColors.passwordFieldColorDefault
-          : (_passwordController.text.length >= 8
-          ? AppColors.passwordFieldColorDefault
-          : AppColors.passwordFieldColorError);
+          _passwordController.text.isNotEmpty && _passwordError == null
+              ? AppColors.passwordFieldColorDefault
+              : (_passwordController.text.length >= 8
+                  ? AppColors.passwordFieldColorDefault
+                  : AppColors.passwordFieldColorError);
     });
   }
 
@@ -305,7 +307,8 @@ class LoginPageState extends State<LoginPage> {
 
     if (_usernameError == null && _passwordError == null) {
       try {
-        await dioService.login(_usernameController.text, _passwordController.text);
+        await dioService.login(
+            _usernameController.text, _passwordController.text);
         widget.onLoginSuccess();
       } catch (e) {
         _incorrectAttempts++;

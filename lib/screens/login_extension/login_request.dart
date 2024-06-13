@@ -38,12 +38,12 @@ class DioService {
 
   DioService()
       : dio = Dio(
-          BaseOptions(
-            baseUrl: ApiConstants.baseUrl,
-            connectTimeout: const Duration(milliseconds: 10000),
-            receiveTimeout: const Duration(milliseconds: 60000),
-          ),
-        ) {
+    BaseOptions(
+      baseUrl: ApiConstants.baseUrl,
+      connectTimeout: const Duration(milliseconds: 10000),
+      receiveTimeout: const Duration(milliseconds: 60000),
+    ),
+  ) {
     dio.interceptors.add(LoggingInterceptor());
   }
 
@@ -82,9 +82,49 @@ class DioService {
       }
     }
   }
+
+  Future<void> checkPhoneNumber(String phoneNumber, void Function(bool) callback) async {
+    try {
+      final response = await dio.post(
+        ApiConstants.checkPhoneNumber,
+        data: {
+          "phoneNumber": phoneNumber,
+          "deviceId": "12",
+          "deviceOS": "Android",
+          "deviceType": "dsa",
+          "appVersion": "dsad",
+          "forgotPassword": false
+        },
+      );
+      if (kDebugMode) {
+        print(response.statusCode);
+      }
+      if (kDebugMode) {
+        print('Check phone number response: ${response.data}');
+      }
+      if (response.statusCode == 200) {
+        callback(true);
+      } else {
+        callback(false);
+      }
+    } catch (e) {
+      if (e is DioException) {
+        if (kDebugMode) {
+          print('Dio error: ${e.message}');
+        }
+        callback(false);
+      } else {
+        if (kDebugMode) {
+          print('Other error: $e');
+        }
+        callback(false);
+      }
+    }
+  }
 }
 
 class ApiConstants {
   static const String baseUrl = "https://score-up.velox.am/";
   static const String login = "api/user/login";
+  static const String checkPhoneNumber = "api/user/signup/phone/send-code";
 }

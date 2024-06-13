@@ -102,15 +102,13 @@ class UserNameWidgetState extends State<UserNameWidget> {
               left: 60,
               top: 0,
               bottom: 0,
-              child: IgnorePointer(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    widget.usernameController.text.padRight(11, '•'),
-                    style: const TextStyle(
-                      color: Colors.black,
-                      height: 1.5,
-                    ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.usernameController.text.padRight(11, '•'),
+                  style: const TextStyle(
+                    color: Colors.black,
+                    height: 1.5,
                   ),
                 ),
               ),
